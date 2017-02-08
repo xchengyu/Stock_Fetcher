@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.chengyu.myapplication.MainActivity"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:visibility="visible"
+    android:padding="16dp">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+
+        android:text="Stock Name/Symbol"
+        android:enabled="false"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/autoCompleteTextView"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:enabled="true"
+        android:singleLine="true"
+        android:editable="true"
+        android:contextClickable="true"
+        android:clickable="true"
+        android:textStyle="normal" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CLEAR"
+        android:id="@+id/button"
+        android:width="180dp"
+        android:layout_below="@+id/autoCompleteTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:onClick="clearHandler"
+        android:enabled="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET QUOTE"
+        android:id="@+id/button2"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignRight="@+id/autoCompleteTextView"
+        android:layout_alignEnd="@+id/autoCompleteTextView"
+        android:width="200dp"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:onClick="quoteHandler"
+        android:enabled="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:text="Favorites"
+        android:id="@+id/textView"
+        android:layout_below="@+id/button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp"
+        android:enabled="true"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textIsSelectable="false"
+        android:textStyle="bold"
+        android:singleLine="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Refresh"
+        android:id="@+id/switch1"
+        android:layout_alignBottom="@+id/textView"
+        android:checked="false"
+        android:width="140dp"
+        android:textStyle="normal"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:layout_toRightOf="@+id/button"
+        android:layout_toLeftOf="@+id/imageView"
+        android:layout_toStartOf="@+id/imageView"
+        android:visibility="visible"
+        android:enabled="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageView"
+        android:src="@android:drawable/ic_menu_rotate"
+        android:visibility="visible"
+        android:padding="0dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
+        android:onClick="refreshHandler"
+        android:layout_alignTop="@+id/switch1"
+        android:layout_alignRight="@+id/autoCompleteTextView"
+        android:layout_alignEnd="@+id/autoCompleteTextView"
+        android:layout_alignBottom="@+id/switch1" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:id="@+id/listView_favorite" />
+
+</RelativeLayout>

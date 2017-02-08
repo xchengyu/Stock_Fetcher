@@ -1,0 +1,14 @@
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+      xmlns:myapp="http://schemas.android.com/apk/res-auto">
+    
+    <item android:id="@+id/action_fb"
+          android:icon="@drawable/fb_icon"
+          android:title="fb"
+          myapp:showAsAction="always"/>
+    
+    <item android:id="@+id/action_favorite"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:title="favorite_off"
+        myapp:showAsAction="always"/>
+</menu>

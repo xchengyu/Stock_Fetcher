@@ -1,0 +1,214 @@
+<!doctype html>
+<head>
+    <meta lang="en">
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Historical</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <!--    autocomplete-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.light.js"></script>
+	<script src='http://connect.facebook.net/en_US/all.js'></script>
+     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="http://cs-server.usc.edu:32929/moment.js"></script>
+    <script src="http://cs-server.usc.edu:32929/moment-timezone-with-data.js"></script> 
+</head>
+<body>
+    <div id="image"></div>
+    <script>
+/************************************ HistoricalCharts()***********************************/
+        tmpSymbol="";
+          function HistoricalCharts(Symbol)
+          {
+              tmpSymbol=Symbol;
+              var requestsend="{'Normalized':false,'NumberOfDays':1095,'DataPeriod':'Day','Elements':[{'Symbol':'"+Symbol+"','Type':'price','Params':['ohlc']}]}";
+              var request = $.ajax({  
+                  url:"http://stockinfo-1268.appspot.com/",   
+                  data:{  
+                        highchart:requestsend  
+                  },  
+                 type:"GET",   
+                 dataType:"json", 
+                 success: function(data){
+                      render(data);
+                      $(".highcharts-input-group").remove();
+                     }
+                     
+                });
+              
+          }
+/************************************ HistoricalCharts()***********************************/
+/************************************ plotchart()***********************************/
+          _fixDate = function(dateIn) {
+    var dat = new Date(dateIn);
+    return Date.UTC(dat.getFullYear(), dat.getMonth(), dat.getDate());
+};
+
+_getOHLC = function(json) {
+    var dates = json.Dates || [];
+    var elements = json.Elements || [];
+    var chartSeries = [];
+
+    if (elements[0]){
+
+        for (var i = 0, datLen = dates.length; i < datLen; i++) {
+            var dat = _fixDate( dates[i] );
+            var pointData = [
+                dat,
+                elements[0].DataSeries['open'].values[i],
+                elements[0].DataSeries['high'].values[i],
+                elements[0].DataSeries['low'].values[i],
+                elements[0].DataSeries['close'].values[i]
+            ];
+            chartSeries.push( pointData );
+        };
+    }
+    return chartSeries;
+};
+
+_getVolume = function(json) {
+    var dates = json.Dates || [];
+    var elements = json.Elements || [];
+    var chartSeries = [];
+
+    if (elements[1]){
+
+        for (var i = 0, datLen = dates.length; i < datLen; i++) {
+            var dat = _fixDate( dates[i] );
+            var pointData = [
+                dat,
+                elements[1].DataSeries['volume'].values[i]
+            ];
+            chartSeries.push( pointData );
+        };
+    }
+    return chartSeries;
+};
+
+render = function(data) {
+    // split the data set into ohlc and volume
+    var ohlc = _getOHLC(data),
+        volume = _getVolume(data);
+
+    // set the allowed units for data grouping
+    var groupingUnits = [[
+        'week',                         // unit name
+        [1]                             // allowed multiples
+    ], [
+        'month',
+        [1, 2, 3, 4, 6]
+    ]];
+
+    // create the chart
+    var chartcontainer="<div class='row'><div class='col-sm-12' id='chartcontainer'></div></div>";
+    $('#image').html(chartcontainer);
+    $('#chartcontainer').highcharts('StockChart', {
+        
+        rangeSelector: {
+            selected: 0,
+            //enabled: false
+            buttons: [{
+                type: 'week',
+                count: 1,
+                text: '1w'
+            },{
+                type: 'month',
+                count: 1,
+                text: '1m'
+            }, {
+                type: 'month',
+                count: 3,
+                text: '3m'
+            }, {
+                type: 'month',
+                count: 6,
+                text: '6m'
+            }, {
+                type: 'ytd',
+                text: 'YTD'
+            }, {
+                type: 'year',
+                count: 1,
+                text: '1y'
+            }, {
+                type: 'all',
+                text: 'All'
+            }],
+        },
+
+        title: {
+            text: tmpSymbol + ' Stock Value'
+        },
+        yAxis: [{
+            title: {
+                text: 'Stock Value'
+            },
+            height: 200,
+            lineWidth: 0
+        }, {
+            title: {
+                text: ''
+            },
+            top: 300,
+            height: 100,
+            offset: 0,
+            lineWidth: 0
+        }],
+        series: [{
+            type: 'area',
+            name: tmpSymbol,
+            data: ohlc,
+            dataGrouping: {
+                units: groupingUnits
+            },
+             tooltip : {
+                    valueDecimals : 2,
+                    valuePrefix: '$',
+                },
+            fillColor : {
+                    linearGradient : {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops : [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                }
+        }, 
+            {
+            type: 'column',
+            name: 'Volume',
+            data: volume,
+            yAxis: 1,
+            dataGrouping: {
+                units: groupingUnits
+            }
+        }],
+        navigation: {
+            buttonOptions: {
+                enabled: false,
+            }
+        },
+        credits: {
+            enabled:true,
+            text: "Highcharts.com",
+        }
+    });
+};
+/************************************ plotchart()***********************************/
+    </script>
+</body>

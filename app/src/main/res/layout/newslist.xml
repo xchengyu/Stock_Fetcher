@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/MyListItem"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/URL"
+        android:autoLink="web"
+        android:visibility="invisible"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#FFFFFF" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/Title"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:textStyle="bold"
+
+        android:textColorLink="#000000">
+    </TextView>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/Description"
+        android:textSize="14sp"
+        android:textColor="#AAAAAA"
+        android:layout_below="@+id/Title"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:paddingBottom="5sp"
+        android:paddingTop="0sp">
+    </TextView>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/Publisher"
+        android:textSize="14sp"
+        android:textColor="#AAAAAA"
+        android:layout_below="@+id/Description"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:paddingBottom="5sp"
+        android:paddingTop="0sp">
+    </TextView>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/Date"
+        android:textSize="14sp"
+        android:textColor="#AAAAAA"
+        android:layout_below="@+id/Publisher"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:paddingBottom="5sp"
+        android:paddingTop="0sp">
+    </TextView>
+
+</RelativeLayout>

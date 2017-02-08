@@ -1,0 +1,8 @@
+<resources>
+    <string name="action_settings">Settings</string>
+    <!--top line had never been used-->
+    <string name="app_name">Stock Market Viewer</string>
+    <string name="facebook_app_id">965267213593904</string>
+    <string name="title_activity_result">ResultActivity</string>
+
+</resources>
